@@ -1,19 +1,23 @@
 import React,{useState} from "react";
 import {QUESTIONS as questions} from "./questions";
-import Question from "./Question";
+import Questionnaire from "./components/Questionnaire";
 
 const App = ()=> {
-
-  
+  // Will get scores stored in local storage and return scores
   const getStoredScores = () => {
     const scores = localStorage.getItem('scores');
     return scores ? JSON.parse(scores) : [];
   };
+
+  // Will set updated scores in local storage
   const storeScores = (scores) => {
     localStorage.setItem('scores', JSON.stringify(scores));
   };
 
+  //lazy initilization with localStorage 'scores'
   const [scores, setScores] = useState(()=>getStoredScores());
+
+  // callback for submitted questions and will calculate, update and store scores
   const submittedData = (data)=>{
     const yesCount = data.filter(answer => answer === 'yes').length;
     const score = (100 * yesCount) / Object.keys(questions).length;
@@ -22,11 +26,13 @@ const App = ()=> {
     storeScores(newScores);
   };
 
+  // function to calculate average for scores
   const calculateAverageScore = () => {
     const total = scores.reduce((acc, score) => acc + score, 0);
     return scores.length ? total / scores.length : 0;
   };
 
+  // function to reset all scores and will remove score from local store
   const resetAll = () => {
     setScores([]);
     storeScores([]);
@@ -37,7 +43,7 @@ return (
       <div className="main__wrap">
         <main className="container">
           <div>
-            <Question onSubmit={submittedData}/>
+            <Questionnaire onSubmit={submittedData}/>
           </div>
           <div>
         <h2>Latest Score: {scores.length ? scores[scores.length - 1] : 'N/A'}</h2>

@@ -1,8 +1,7 @@
-// src/components/Questionnaire.js
 import React, { useState } from 'react';
-import {QUESTIONS as questions} from './questions'
+import {QUESTIONS as questions} from '../questions'
 
-const Question = ({ onSubmit }) => {
+const Questionnaire = ({ onSubmit }) => {
   const [answers, setAnswers] = useState([]);
 
   const handleAnswer = (index, answer) => {
@@ -47,4 +46,4 @@ const Question = ({ onSubmit }) => {
   );
 };
 
-export default Question;
+export default Questionnaire;
